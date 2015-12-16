@@ -1,0 +1,16 @@
+import javax.swing.*;
+import java.awt.*;
+class Asteroids_Small{
+     public Asteroids_Small(){
+          
+          JFrame f = new JFrame("Testing Asteroids");
+          JPanel pan = new JPanel();
+          ImageIcon asteroid = new ImageIcon("AsteroidS1.png");
+          JLabel lbl = new JLabel(asteroid);
+          pan.setPreferredSize(new Dimension(756, 480));
+          f.add(pan);
+          pan.add(lbl);
+          f.setVisible(true);
+          f.pack();
+     }
+}
