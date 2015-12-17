@@ -1,9 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
 
-class MainMenu extends JFrame implements ActionListener, KeyListener
-{
+class MainMenu extends JFrame implements ActionListener, KeyListener {
 
 	JLabel lblTop = new JLabel("ASTEROIDS");
 	
@@ -12,18 +12,11 @@ class MainMenu extends JFrame implements ActionListener, KeyListener
 	JPanel background = new JPanel();
 	JPanel blank = new JPanel();
 
-	/*
-	JButton buttonA = new JButton("START NEW GAME");
-	JButton buttonB = new JButton("RESUME PREVIOUS GAME");
-	JButton buttonC = new JButton("SETTINGS");
-	JButton buttonD = new JButton("EXIT");
-	*/
-
-	JButton buttonList[] = new JButton[4];
-	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "SETTINGS", "EXIT"};
+	JButton buttonList[] = new JButton[5];
+	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "HIGH SCORES", "SETTINGS", "EXIT"};
 	
 	public MainMenu()
-    {
+	{
 		super("Asteroids");
 		
 		for(int i = 0; i < buttonList.length;i++){
@@ -38,34 +31,11 @@ class MainMenu extends JFrame implements ActionListener, KeyListener
 			buttons.add(buttonList[i]);
 		}
 		
-		/*
-		buttonA.setPreferredSize(new Dimension(200, 60));
-		buttonB.setPreferredSize(new Dimension(200, 60));
-		buttonC.setPreferredSize(new Dimension(200, 60));
-		buttonD.setPreferredSize(new Dimension(200, 60));
-		
-		buttonA.setFocusPainted(false);
-		buttonA.setOpaque(false);
-		buttonA.setContentAreaFilled(false);
-		buttonA.setBorderPainted(false);
-		
-		buttonA.addActionListener(this);
-		buttons.add(buttonA);
-		buttonB.addActionListener(this);
-		buttons.add(buttonB);
-		buttonC.addActionListener(this);
-		buttons.add(buttonC);
-		buttonD.addActionListener(this);
-		buttons.add(buttonD);
-		*/
-		
-		
-
 		//.setPreferredSize(new Dimension(600, 300));
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
 		top.add(lblTop);
-		buttons.setLayout(new GridLayout(4,1, 10, 10));
+		buttons.setLayout(new GridLayout(5,1, 10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		background.add(top);
 		background.add(blank);
@@ -78,13 +48,44 @@ class MainMenu extends JFrame implements ActionListener, KeyListener
 		pack();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{
 		if (buttonList[0] == e.getSource())
 			dispose();
-		if (buttonList[3] == e.getSource())
+		if (buttonList[1] == e.getSource()){
+			JFileChooser chooseFile = new JFileChooser();
+			chooseFile.setDialogTitle("Specify a file to Load");
+
+			int userSelection = chooseFile.showOpenDialog(this);
+			if (userSelection == JFileChooser.APPROVE_OPTION)
+			{
+				File fileToOpen = chooseFile.getSelectedFile();
+				try
+				{
+					ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileToOpen.getAbsolutePath()));
+					
+					input.close();
+				}
+				/*
+				catch (IOException x)
+				{
+					System.out.println("The following problem reading from a file occurred:\n" + x);
+				}
+				*/
+				catch (Exception c)
+				{
+					System.out.println("Class not found");
+				    c.printStackTrace();
+				}
+				
+			}
+
+		}
+		//if (buttonList[2] == e.getSource())
+			//new HighScores();
+		if (buttonList[4] == e.getSource())
 			System.exit(0);
 	}
 
@@ -94,13 +95,5 @@ class MainMenu extends JFrame implements ActionListener, KeyListener
 		}
 	}
 	public void keyTyped(KeyEvent e){}
-	public void keyPressed(KeyEvent e){
-		
-	}
-	/*
-	public static void main(String[] args)
-	{
-		new MainMenu();
-	}
-	*/
+	public void keyPressed(KeyEvent e){}
 }
