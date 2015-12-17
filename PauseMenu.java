@@ -73,6 +73,7 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 					System.out.println("The following problem writing to a file occurred:\n" + x);
 				}
 			}
+		}
 		if (buttonList[4] == e.getSource())
 			System.exit(0);
 	}
@@ -83,7 +84,5 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 	public void keyTyped(KeyEvent e){}
-	public void keyPressed(KeyEvent e){
-		
-	}
+	public void keyPressed(KeyEvent e){}
 }
