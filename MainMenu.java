@@ -5,8 +5,8 @@ import java.io.*;
 
 class MainMenu extends JFrame implements ActionListener, KeyListener {
 
-	JLabel lblTop = new JLabel("ASTEROIDS");
-	
+	ImageIcon asteroids = new ImageIcon("img\\Asteroids.png");
+	JButton lblTop = new JButton(asteroids);
 	JPanel top = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel background = new JPanel();
@@ -15,8 +15,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	JButton buttonList[] = new JButton[5];
 	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "HIGH SCORES", "SETTINGS", "EXIT"};
 	
-	public MainMenu()
-	{
+	public MainMenu() {
 		super("Asteroids");
 		
 		for(int i = 0; i < buttonList.length;i++){
@@ -31,10 +30,17 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			buttons.add(buttonList[i]);
 		}
 		
+		lblTop.setFocusPainted(false);
+		lblTop.setOpaque(false);
+		lblTop.setContentAreaFilled(false);
+		lblTop.setBorderPainted(false);
+		lblTop.setFocusable(false);
+		
 		//.setPreferredSize(new Dimension(600, 300));
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
 		top.add(lblTop);
+		
 		buttons.setLayout(new GridLayout(5,1, 10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		background.add(top);
@@ -50,8 +56,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		if (buttonList[0] == e.getSource())
 			dispose();
 		if (buttonList[1] == e.getSource()){
@@ -65,26 +70,17 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 				try
 				{
 					ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileToOpen.getAbsolutePath()));
-					
 					input.close();
 				}
-				/*
-				catch (IOException x)
-				{
-					System.out.println("The following problem reading from a file occurred:\n" + x);
-				}
-				*/
 				catch (Exception c)
 				{
 					System.out.println("Class not found");
 				    c.printStackTrace();
 				}
-				
 			}
-
 		}
-		//if (buttonList[2] == e.getSource())
-			//new HighScores();
+		if (buttonList[2] == e.getSource())
+			HighScore.score("a");
 		if (buttonList[4] == e.getSource())
 			System.exit(0);
 	}
