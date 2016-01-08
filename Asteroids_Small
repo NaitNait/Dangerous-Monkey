@@ -1,16 +1,48 @@
 import javax.swing.*;
 import java.awt.*;
 class Asteroids_Small{
-     public Asteroids_Small(){
-          
-          JFrame f = new JFrame("Testing Asteroids");
-          JPanel pan = new JPanel();
-          ImageIcon asteroid = new ImageIcon("AsteroidS1.png");
-          JLabel lbl = new JLabel(asteroid);
-          pan.setPreferredSize(new Dimension(756, 480));
-          f.add(pan);
-          pan.add(lbl);
-          f.setVisible(true);
-          f.pack();
-     }
+    int x;
+    int y;
+    public Asteroids_Small(){
+        
+		JFrame f = new JFrame("Testing Asteroids");
+		DrawPan draw = new DrawPan();
+			
+		draw.repaint();
+		draw.setPreferredSize(new Dimension(756, 480));
+			
+		
+			
+		f.add(draw);
+		f.setVisible(true);
+		f.pack();
+		System.out.println("constructor ");
+		/*do{
+			if (time + 500 == System.currentTimeMillis()){
+				x++;
+				y++;
+				draw.repaint();
+			}
+        }while(true);*/
+    }
+    class DrawPan extends JPanel{
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            g.setColor(Color.green);
+            Graphics2D gg = (Graphics2D) g;
+            g.fillRect(x, y, x + 60, y + 60);
+			System.out.println("Draw");
+			long time = System.currentTimeMillis();
+			while (true){
+				if (time + 500 == System.currentTimeMillis()){
+					x++;
+					y++;
+					repaint();
+				}
+			}
+        }
+    }
 }
+//need game ticks to test out program
+//sin, cos functions for moving asteroids
+//
