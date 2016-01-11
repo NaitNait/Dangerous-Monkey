@@ -1,3 +1,12 @@
+/**
+ * PauseMenu class
+ *
+ * Creates the pause menu of the game containing 1 JLabel and 5 JButtons
+ * This class includes an action listener, key listener, and file writer
+ * 
+ * @author Rehan Hajee
+ **/
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -5,19 +14,30 @@ import java.io.*;
 
 class PauseMenu extends JFrame implements ActionListener, KeyListener {
 
-	JLabel lblTop = new JLabel("GAME PAUSED");
+	//create JLabel
+	JLabel lblTop = new JLabel("<html><u>GAME PAUSED</u></html>");
 	
+	
+	//Initializing the JPanels
 	JPanel top = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel background = new JPanel();
-	JPanel blank = new JPanel();
 
+	//Setting 2 lists: a JButton list and a String list to label the buttons
 	JButton buttonList[] = new JButton[5];
 	String buttonText[] = {"RESUME", "RESTART", "SAVE GAME", "SETTINGS", "EXIT"};
 	
+	/**
+	 * Main Constructor
+	 * Constructs the menu with an ImageIcon on the top, with JButtons
+	 * in a GridLayout 
+	 *
+	 * @param none
+	 **/
 	public PauseMenu() {
 		super("Asteroids");
 		
+		//Configures each JButton and adds it to the button list
 		for(int i = 0; i < buttonList.length;i++){
 			buttonList[i] = new JButton(buttonText[i]);
 			buttonList[i].setPreferredSize(new Dimension(200, 60));
@@ -28,25 +48,24 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			buttonList[i].addActionListener(this);
 			buttonList[i].setFocusable(false);
 			buttons.add(buttonList[i]);
-		}
+		}//end for
 		
-		//.setPreferredSize(new Dimension(600, 300));
 		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
 
 		top.add(lblTop);
 		buttons.setLayout(new GridLayout(5, 1, 10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		background.add(top);
-		background.add(blank);
 		background.add(buttons);
 
 		add(background);
 		addKeyListener(this);
 		setVisible(true);
+		setResizable(false);
 		pack();
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}//end PauseMenu constructor
 
 	public void actionPerformed(ActionEvent e) {
 		if (buttonList[0] == e.getSource())
@@ -58,31 +77,32 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			int userSelection = chooseFile.showSaveDialog(this);
 			if (userSelection == JFileChooser.APPROVE_OPTION)
 			{
+				//Attempt to save to the file
 				File fileToSave = chooseFile.getSelectedFile();
 				try
 				{
 					FileOutputStream out = new FileOutputStream(fileToSave.getAbsolutePath());
 					ObjectOutputStream fileOut = new ObjectOutputStream(out);
 				  
-					//fileOut.writeObject();
+					//fileOut.writeObject(HighScore.arrHighScoreList);
 					fileOut.flush();
 					fileOut.close();
 				}
 				catch (IOException x)
 				{
 					System.out.println("The following problem writing to a file occurred:\n" + x);
-				}
-			}
-		}
+				}//end try/catch
+			}//end if
+		}//end if
 		if (buttonList[4] == e.getSource())
 			System.exit(0);
-	}
+	}//end actionPerformed
 	
 	public void keyReleased(KeyEvent e){
 		if (e.getKeyCode() == KeyEvent.VK_P){
 			dispose();
 		}
-	}
+	}//end keyReleased
 	public void keyTyped(KeyEvent e){}
 	public void keyPressed(KeyEvent e){}
 }
