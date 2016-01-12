@@ -22,8 +22,8 @@ class Asteroids_Small{
     public void paintComponent (Graphics g){
         public void paintComponent(Graphics g){
             super.paintComponent(g);
-				asteroid.draw(g);
-			}
+			asteroid.draw(g);
+			
         }
     }
 	class Small_Asteroid{
@@ -33,6 +33,10 @@ class Asteroids_Small{
 		
 		public Small_Asteroid(){
 			
+		}
+		public move(){
+			x += ;
+			y++;
 		}
 		public draw(Graphics g){
 			Graphics2D gg = (Graphics2D) g;
