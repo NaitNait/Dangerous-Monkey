@@ -1,47 +1,61 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 class Asteroids_Small{
 	Small_Asteroid asteroid;
 	Timer time = null;
-	
+	JFrame f = new JFrame();
+	DrawPan pan = new DrawPan();
+
 	public Asteroids_Small(){
-		
-		time = new Timer(100, new ActionListener(){
-			asteroid.move();
-			repaint();
-		});
-		
-		JFrame f = new JFrame();
-		JPanel pan = new JPanel();
+
+		pan.setPreferredSize(new Dimension (400, 400));
+		pan.repaint();
 		f.add(pan);
+		f.setVisible(true);
+		f.pack();
+
+		time = new Timer(100, new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				asteroid.move();
+				pan.repaint();
+			}
+		}); 
+	}
+	class DrawPan extends JPanel{
 		
-    }
-	
-    public void paintComponent (Graphics g){
-        public void paintComponent(Graphics g){
-            super.paintComponent(g);
-			asteroid.draw(g);
+		DrawPan(){
 			
-        }
-    }
+		}
+		
+		public void paintComponent(Graphics g){
+			super.paintComponent(g);
+			asteroid.draw(g);
+		}
+	}
+
 	class Small_Asteroid{
 		int x;
 		int y;
 		double angle;
-		
+
 		public Small_Asteroid(){
-			
+			x = 100;
+			y = 100;
+			angle = 50;
 		}
-		public move(){
-			x += ;
-			y++;
+		public void move(){
+			x += (int)(Math.sin(Math.toRadians(angle)) * 50);
+			y += (int)(Math.cos(Math.toRadians(angle)) * 50);
 		}
-		public draw(Graphics g){
+		public void draw(Graphics g){
 			Graphics2D gg = (Graphics2D) g;
+			g.setColor(Color.black);
 			gg.setStroke(new BasicStroke(4));
-			g.drawPolygon();
+			int[] a = {x + 40, x + 30, x + 15, x + 35, x + 50, x + 45}; 
+			int[] b = {y, y + 25, y + 20, y + 30, y + 40, y + 35}; 
+			g.drawPolygon(a, b, 6);
+			g.fillRect(10, 10, 10, 10);
 		}
 	}
 }
