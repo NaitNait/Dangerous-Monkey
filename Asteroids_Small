@@ -1,61 +1,86 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-class Asteroids_Small{
-	Small_Asteroid asteroid;
+class Asteroids_Small extends JPanel{
 	Timer time = null;
-	JFrame f = new JFrame();
-	DrawPan pan = new DrawPan();
-
+	Small_Asteroid asteroid = new Small_Asteroid();
+	Boolean up = false;
+	Boolean left = true;
 	public Asteroids_Small(){
-
-		pan.setPreferredSize(new Dimension (400, 400));
-		pan.repaint();
-		f.add(pan);
-		f.setVisible(true);
-		f.pack();
-
-		time = new Timer(100, new ActionListener(){
+		
+		this.setPreferredSize(new Dimension (800, 600));	
+		
+		//System.out.println("Hi");
+		test();
+		time = new Timer((int)(1000/60), new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				asteroid.move();
-				pan.repaint();
+				test();
+				asteroid.move(up, left);
+				repaint();
 			}
 		}); 
-	}
-	class DrawPan extends JPanel{
 		
-		DrawPan(){
-			
-		}
-		
-		public void paintComponent(Graphics g){
-			super.paintComponent(g);
-			asteroid.draw(g);
-		}
+		time.start();
 	}
-
+		
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		asteroid.drawObj(g);
+	}
+	public void test(){
+		System.out.println("Hi");
+	}
 	class Small_Asteroid{
-		int x;
-		int y;
+		double x;
+		double y;
 		double angle;
-
+		Boolean up;
+		Boolean left;
 		public Small_Asteroid(){
 			x = 100;
 			y = 100;
-			angle = 50;
+			angle = 130;
 		}
-		public void move(){
-			x += (int)(Math.sin(Math.toRadians(angle)) * 50);
-			y += (int)(Math.cos(Math.toRadians(angle)) * 50);
+		public void move(Boolean up, Boolean left){//){
+			up = this.up;
+			left = this.left;
+			//x += Math.cos(Math.toRadians(angle));//moving left at 0 degrees
+			//y -= Math.sin(Math.toRadians(angle));//moving up at 90 degrees
+			
+			if(this.left){	
+				x += Math.cos(Math.toRadians(angle));
+			}
+			else if (!this.left){
+				x -= Math.cos(Math.toRadians(angle));
+			}
+			
+			if(this.up){
+				y += Math.sin(Math.toRadians(angle));	
+			}
+			else if(!this.up){
+				y -= Math.sin(Math.toRadians(angle));
+			}
+			
 		}
-		public void draw(Graphics g){
+		public void drawObj(Graphics g){
 			Graphics2D gg = (Graphics2D) g;
 			g.setColor(Color.black);
 			gg.setStroke(new BasicStroke(4));
-			int[] a = {x + 40, x + 30, x + 15, x + 35, x + 50, x + 45}; 
-			int[] b = {y, y + 25, y + 20, y + 30, y + 40, y + 35}; 
-			g.drawPolygon(a, b, 6);
-			g.fillRect(10, 10, 10, 10);
+			int[] a = {(int)x + 40, (int)x + 15, (int)x + 15, (int)x + 35, (int)x + 50, (int)x + 40}; 
+			int[] b = {(int)y, (int)y + 18, (int)y + 40, (int)y + 40, (int)y + 35, (int)y + 20}; 
+			gg.drawPolygon(a, b, 6);
+			if(x <= 0){
+				left = true;
+			}
+			if(x + 50 <= 800){
+				left = false;
+			}
+			if(y <= 0){
+				up = false;
+			}
+			if(y + 40 >= 600){
+				up = true;
+			}
 		}
 	}
 }
