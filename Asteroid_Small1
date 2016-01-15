@@ -1,0 +1,99 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+class Asteroid_Small1 extends JPanel{
+	Timer time = null;
+	boolean up = false;
+	boolean left = true;
+	int hitPoints = 50;
+	final static int SPEED = 3;
+	Small_Asteroid asteroid = new Small_Asteroid(up, left);
+	public Asteroid_Small1(){
+		
+		this.setPreferredSize(new Dimension (800, 600));	
+		
+		//System.out.println("Hi");
+		test();
+		time = new Timer((int)(1000/60), new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				test();
+				asteroid.move();
+				repaint();
+			}
+		}); 
+		
+		time.start();
+	}
+		
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		asteroid.drawObj(g);
+	}
+	public void test(){
+		//System.out.println("Hi");
+	}
+	class Small_Asteroid{
+		double x;
+		double y;
+		double angle;
+		boolean up;
+		boolean left;
+		public Small_Asteroid(boolean up, boolean left){
+			x = 100;
+			y = 100;
+			angle = 40;
+			up = this.up;
+			left = this.left;
+		}
+		public void move(){//){
+			//x += Math.cos(Math.toRadians(angle));//moving left at 0 degrees
+			//y -= Math.sin(Math.toRadians(angle));//moving up at 90 degrees
+			
+			if(left){	
+				x += Math.cos(Math.toRadians(angle)) * SPEED;
+				System.out.println("left");
+			}
+			else if (!left){
+				System.out.println("!left");
+				x -= Math.cos(Math.toRadians(angle)) * SPEED;
+			}
+			
+			if(up){
+				y -= Math.sin(Math.toRadians(angle)) * SPEED;	
+				System.out.println("up");
+			}
+			else if(!up){
+				y += Math.sin(Math.toRadians(angle)) * SPEED;
+				System.out.println("!up");
+			}
+			if(x <= 0){
+				left = true;
+			}
+			if(x + 50 >= 800){
+				left = false;
+			}
+			if(y <= 0){
+				up = false;
+			}
+			if(y + 40 >= 600){
+				up = true;
+			}
+			
+		}
+		public void drawObj(Graphics g){
+			Graphics2D gg = (Graphics2D) g;
+			g.setColor(Color.black);
+			gg.setStroke(new BasicStroke(4));
+			int[] a = {(int)x + 30, (int)x, (int)x + 15, (int)x + 35, (int)x + 50, (int)x + 40}; 
+			int[] b = {(int)y, (int)y + 18, (int)y + 40, (int)y + 45, (int)y + 35, (int)y + 20}; 
+			gg.drawPolygon(a, b, 6);
+			System.out.println(x + ", " + y);
+		}
+		//public boolean hitBox(){
+			
+		//}
+	}
+}
+//need game ticks to test out program
+//sin, cos functions for moving asteroids
+//
