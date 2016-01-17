@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
+import java.util.*;
 
 class MainMenu extends JFrame implements ActionListener, KeyListener {
 
@@ -23,7 +24,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	JPanel buttons = new JPanel();
 	JPanel highScore = new JPanel();
 	JPanel highScoreChart = new JPanel();
-	JPanel background = new JPanel();
+	JPanel mainMenuBackground = new JPanel();
 
 
 	//Setting 2 lists: a JButton list and a String list to label the buttons 
@@ -39,7 +40,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	 *
 	 * @param none
 	 **/
-	public MainMenu() throws IOException{
+	public MainMenu() throws IOException {
 		super("Asteroids");
 		
 		// Retrieve high scores from the file
@@ -58,16 +59,16 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			buttons.add(buttonList[i]);
 		}//end for loop
 		
-		
-		for(int i = 0; i < HighScore.arrHighScoreList.size()/2-1;i++){
-			JLabel s1 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i).score));
-			highScoreChart.add(s1);
-			JLabel n1 = new JLabel(HighScore.arrHighScoreList.get(i).name);
-			highScoreChart.add(n1);
-			JLabel s2 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i + 9).score));
-			highScoreChart.add(s2);
-			JLabel n2 = new JLabel(HighScore.arrHighScoreList.get(i + 9).name);
-			highScoreChart.add(n2);
+		highScoreChart.setLayout(new BoxLayout(highScoreChart, BoxLayout.Y_AXIS));
+		for(int i = 0; i < HighScore.arrHighScoreList.size()/2;i++){
+			JPanel temp = new JPanel();
+			temp.setLayout(new FlowLayout(FlowLayout.LEFT));
+			JLabel s1 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i).score) + " " + HighScore.arrHighScoreList.get(i).name);
+			s1.setPreferredSize(new Dimension(120, 20));
+			temp.add(s1);
+			JLabel s2 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i + 10).score) + " " + HighScore.arrHighScoreList.get(i + 10).name);
+			temp.add(s2);
+			highScoreChart.add(temp);
 		}
 		
 		menuReturn.setFocusPainted(false);
@@ -77,29 +78,28 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		menuReturn.addActionListener(this);
 		menuReturn.setFocusable(false);
 		
-		highScoreChart.setLayout(new GridLayout(10,2));
-		
 		highScore.add(highScoreChart);
 		highScore.add(menuReturn);
+		
 		highScore.setVisible(false);
 		
-		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+		mainMenuBackground.setLayout(new BoxLayout(mainMenuBackground, BoxLayout.Y_AXIS));
 		
 		top.add(lblTop);
 		
 		buttons.setLayout(new GridLayout(5,1, 10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		
-		background.add(top);
-		background.add(buttons);
-		background.add(highScore);
+		mainMenuBackground.add(top);
+		mainMenuBackground.add(buttons);
+		mainMenuBackground.add(highScore);
 		
-		add(background);
+		add(mainMenuBackground);
 		
 		addKeyListener(this);
 		
 		setVisible(true);
-		//setResizable(false);
+		setResizable(false);
 		pack();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,14 +121,22 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 				File fileToOpen = chooseFile.getSelectedFile();
 				try
 				{
-					ObjectInputStream input = new ObjectInputStream(new FileInputStream(fileToOpen.getAbsolutePath()));
-					input.close();
+					Scanner sc = new Scanner(fileToOpen);
+					while (sc.hasNextInt()){
+						for (int i = 0; i < Ship.shipX.length; i++) {
+							Ship.shipX[i] = sc.nextInt();
+						}
+						for (int i = 0; i < Ship.shipY.length; i++) {
+							Ship.shipY[i] = sc.nextInt();
+						}
+					}
 				}
 				catch (Exception c)
 				{
 					System.out.println("Class not found");
 				    c.printStackTrace();
 				}//end try/catch
+				new Ship();
 			}//end if
 		}//end if
 		if (buttonList[2] == e.getSource()){
@@ -140,7 +148,6 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			System.exit(0);
 		
 		if (menuReturn == e.getSource()){
-			System.out.println("Test");
 			highScore.setVisible(false);
 			buttons.setVisible(true);
 			
@@ -154,4 +161,8 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	}//end keyReleased
 	public void keyTyped(KeyEvent e){}
 	public void keyPressed(KeyEvent e){}
+	
+	public static void main(String [] args) throws IOException{
+		new MainMenu();
+	}
 }//end class
