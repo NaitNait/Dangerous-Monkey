@@ -12,6 +12,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 
+
 class PauseMenu extends JFrame implements ActionListener, KeyListener {
 
 	//create JLabel
@@ -21,7 +22,7 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 	//Initializing the JPanels
 	JPanel top = new JPanel();
 	JPanel buttons = new JPanel();
-	JPanel background = new JPanel();
+	JPanel pauseBackground = new JPanel();
 
 	//Setting 2 lists: a JButton list and a String list to label the buttons
 	JButton buttonList[] = new JButton[5];
@@ -50,15 +51,15 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			buttons.add(buttonList[i]);
 		}//end for
 		
-		background.setLayout(new BoxLayout(background, BoxLayout.Y_AXIS));
+		pauseBackground.setLayout(new BoxLayout(pauseBackground, BoxLayout.Y_AXIS));
 
 		top.add(lblTop);
 		buttons.setLayout(new GridLayout(5, 1, 10, 10));
 		buttons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		background.add(top);
-		background.add(buttons);
+		pauseBackground.add(top);
+		pauseBackground.add(buttons);
 
-		add(background);
+		add(pauseBackground);
 		addKeyListener(this);
 		setVisible(true);
 		setResizable(false);
@@ -78,15 +79,18 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			if (userSelection == JFileChooser.APPROVE_OPTION)
 			{
 				//Attempt to save to the file
-				File fileToSave = chooseFile.getSelectedFile();
+				File file = chooseFile.getSelectedFile();
 				try
 				{
-					FileOutputStream out = new FileOutputStream(fileToSave.getAbsolutePath());
-					ObjectOutputStream fileOut = new ObjectOutputStream(out);
-				  
-					//fileOut.writeObject(HighScore.arrHighScoreList);
-					fileOut.flush();
-					fileOut.close();
+					FileWriter fw = new FileWriter(file);
+					PrintWriter pw = new PrintWriter(fw);
+					for (int i  = 0; i < Ship.shipX.length; i++){
+						pw.println(Ship.shipX[i]);
+					}
+					for (int i  = 0; i < Ship.shipY.length; i++){
+						pw.println(Ship.shipY[i]);
+					}
+					pw.close();
 				}
 				catch (IOException x)
 				{
