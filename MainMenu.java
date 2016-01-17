@@ -47,7 +47,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		HighScore.getScores();
 		
 		//Configures each JButton and adds it to the button list
-		for(int i = 0; i < buttonList.length;i++){
+		for(int i = 0; i < buttonList.length;i++) {
 			buttonList[i] = new JButton(buttonText[i]);
 			buttonList[i].setPreferredSize(new Dimension(200, 60));
 			buttonList[i].setFocusPainted(false);
@@ -60,7 +60,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		}//end for loop
 		
 		highScoreChart.setLayout(new BoxLayout(highScoreChart, BoxLayout.Y_AXIS));
-		for(int i = 0; i < HighScore.arrHighScoreList.size()/2;i++){
+		for(int i = 0; i < HighScore.arrHighScoreList.size()/2;i++) {
 			JPanel temp = new JPanel();
 			temp.setLayout(new FlowLayout(FlowLayout.LEFT));
 			JLabel s1 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i).score) + " " + HighScore.arrHighScoreList.get(i).name);
@@ -106,11 +106,12 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	}//end MainMenu constructor 
 
 	public void actionPerformed(ActionEvent e) {
-		if (buttonList[0] == e.getSource()){
+		if (buttonList[0] == e.getSource()) {
 			dispose();
-			new Ship();
+			new Main();
 		}//end if
-		if (buttonList[1] == e.getSource()){
+		
+		if (buttonList[1] == e.getSource()) {
 			JFileChooser chooseFile = new JFileChooser();
 			chooseFile.setDialogTitle("Specify a file to Load");
 
@@ -119,48 +120,52 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			{
 				//Attempt to Read the file
 				File fileToOpen = chooseFile.getSelectedFile();
-				try
-				{
+				try {
 					Scanner sc = new Scanner(fileToOpen);
-					while (sc.hasNextInt()){
-						for (int i = 0; i < Ship.shipX.length; i++) {
-							Ship.shipX[i] = sc.nextInt();
+					while (sc.hasNext()) {
+						for (int i = 0; i < Main.shipX.length; i++) {
+							Main.shipX[i] = sc.nextInt();
 						}
-						for (int i = 0; i < Ship.shipY.length; i++) {
-							Ship.shipY[i] = sc.nextInt();
+						for (int i = 0; i < Main.shipY.length; i++) {
+							Main.shipY[i] = sc.nextInt();
 						}
+						Main.angle = sc.nextDouble();
+						Main.backgroundX = sc.nextInt();
+						Main.backgroundY = sc.nextInt();
 					}
-				}
-				catch (Exception c)
-				{
+				} catch (Exception ex) {
 					System.out.println("Class not found");
-				    c.printStackTrace();
+				    ex.printStackTrace();
 				}//end try/catch
-				new Ship();
+				new Main();
 			}//end if
 		}//end if
-		if (buttonList[2] == e.getSource()){
+		
+		if (buttonList[2] == e.getSource()) {
 			HighScore.printScores();
 			buttons.setVisible(false);
 			highScore.setVisible(true);
 		}//end if
-		if (buttonList[4] == e.getSource())
-			System.exit(0);
 		
-		if (menuReturn == e.getSource()){
+		if (buttonList[4] == e.getSource()) {
+			System.exit(0);
+		}//end if
+		
+		if (menuReturn == e.getSource()) {
 			highScore.setVisible(false);
 			buttons.setVisible(true);
 			
 		}
 	}//end actionPerformed
 
-	public void keyReleased(KeyEvent e){
-		if (e.getKeyCode() == KeyEvent.VK_P){
+	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_P) {
 			new PauseMenu();
 		}
 	}//end keyReleased
-	public void keyTyped(KeyEvent e){}
-	public void keyPressed(KeyEvent e){}
+	
+	public void keyTyped(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {}
 	
 	public static void main(String [] args) throws IOException{
 		new MainMenu();
