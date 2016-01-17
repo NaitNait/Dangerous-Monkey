@@ -6,9 +6,8 @@
  * 
  * @author Rehan Hajee
  **/
-
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 class HighScore {
 	
