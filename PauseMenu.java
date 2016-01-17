@@ -69,8 +69,9 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 	}//end PauseMenu constructor
 
 	public void actionPerformed(ActionEvent e) {
-		if (buttonList[0] == e.getSource())
+		if (buttonList[0] == e.getSource()){
 			dispose();
+		}
 		if (buttonList[2] == e.getSource()){
 			JFileChooser chooseFile = new JFileChooser();
 			chooseFile.setDialogTitle("Specify a file to save");
@@ -80,8 +81,7 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			{
 				//Attempt to save to the file
 				File file = chooseFile.getSelectedFile();
-				try
-				{
+				try {
 					FileWriter fw = new FileWriter(file);
 					PrintWriter pw = new PrintWriter(fw);
 					for (int i  = 0; i < Ship.shipX.length; i++){
@@ -90,16 +90,21 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 					for (int i  = 0; i < Ship.shipY.length; i++){
 						pw.println(Ship.shipY[i]);
 					}
+					pw.println(Ship.angle);
+					pw.println(Ship.backgroundX + " " + Ship.backgroundY);
+					
 					pw.close();
-				}
-				catch (IOException x)
-				{
+				} catch (IOException x) {
 					System.out.println("The following problem writing to a file occurred:\n" + x);
 				}//end try/catch
 			}//end if
 		}//end if
-		if (buttonList[4] == e.getSource())
+		if (buttonList[3] == e.getSource()){
+			
+		} 
+		if (buttonList[4] == e.getSource()){
 			System.exit(0);
+		}
 	}//end actionPerformed
 	
 	public void keyReleased(KeyEvent e){
