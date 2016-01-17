@@ -84,14 +84,14 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 				try {
 					FileWriter fw = new FileWriter(file);
 					PrintWriter pw = new PrintWriter(fw);
-					for (int i  = 0; i < Ship.shipX.length; i++){
-						pw.println(Ship.shipX[i]);
+					for (int i  = 0; i < Main.shipX.length; i++){
+						pw.println(Main.shipX[i]);
 					}
-					for (int i  = 0; i < Ship.shipY.length; i++){
-						pw.println(Ship.shipY[i]);
+					for (int i  = 0; i < Main.shipY.length; i++){
+						pw.println(Main.shipY[i]);
 					}
-					pw.println(Ship.angle);
-					pw.println(Ship.backgroundX + " " + Ship.backgroundY);
+					pw.println(Main.angle);
+					pw.println(Main.backgroundX + " " + Main.backgroundY);
 					
 					pw.close();
 				} catch (IOException x) {
