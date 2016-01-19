@@ -2,7 +2,7 @@
  * Main class
  *
  * Creates and displays the ship with a background
- * This class includes Arrays and a key listener
+ * This class includes Arrays a key listener and a mouselistener
  * 
  * #rehan
  **/
@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.imageio.*;
 
 //#method
-public class Main extends JFrame implements KeyListener {
+public class Main extends JFrame implements KeyListener, MouseListener {
 	
 	//setting coordinates of the ship from top left going counter-clockwise
 	static int shipX[] = {400, 400, 408, 420, 428, 428, 420, 420, 408, 408};
@@ -142,6 +142,11 @@ public class Main extends JFrame implements KeyListener {
 	}//end DrawPanel
 	
 	//#action
+	public void mouseClicked(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
 		
