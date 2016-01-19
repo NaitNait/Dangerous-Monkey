@@ -4,7 +4,7 @@
  * Creates and displays the ship with a background
  * This class includes Arrays and a key listener
  * 
- * @author Rehan Hajee
+ * #rehan
  **/
  
 import java.awt.*;
@@ -15,6 +15,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.imageio.*;
 
+//#method
 public class Main extends JFrame implements KeyListener {
 	
 	//setting coordinates of the ship from top left going counter-clockwise
@@ -25,6 +26,7 @@ public class Main extends JFrame implements KeyListener {
 	static int backgroundX = -159;
 	static int backgroundY = -1105;
 	
+	//initializing the average coordinate of the ship
 	static double averageX = 0.0;
 	static double averageY = 0.0;
 	
@@ -39,15 +41,20 @@ public class Main extends JFrame implements KeyListener {
 	
 	static Color shipColor = Color.RED;
 	
+	//get the x and y for the mouse
 	static int mouseX = (int) MouseInfo.getPointerInfo().getLocation().x;
 	static int mouseY = (int) MouseInfo.getPointerInfo().getLocation().y;
 	
 	//setting ship constructor
 	public Main() {
 		super("Asteroids");
+		
+		//#read
 		try {
 			backgroundImg = ImageIO.read(new File("img\\Background.jpg"));
-		} catch (IOException e) {
+		} 
+		//#error
+		catch (IOException e) {
 			System.out.println("The following problem writing to a file occurred:\n" + e);
 		}
 		
@@ -65,27 +72,30 @@ public class Main extends JFrame implements KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}//end ship constructor
 	
+	//#static
 	static class DrawPanel extends JPanel {
 		
 		public DrawPanel() {
 			repaint();
 		}
 		
-		@Override
+		//@Override
 		public void paintComponent (Graphics g) {
 			super.paintComponent(g);
 			
 			g.drawImage(backgroundImg, backgroundX, backgroundY, null);
-			if (PauseMenu.pause){
+			
+			//if the game is not paused
+			if (!PauseMenu.pause) {
 				mouseX = (int) MouseInfo.getPointerInfo().getLocation().x;			
 				mouseY = (int) MouseInfo.getPointerInfo().getLocation().y;
+				//if mouse is out of the window
 				if (mouseX >= getWidth() - 10)
 					mouseX = getWidth() - 10 ;
 				if (mouseY >= getHeight() - 10)
 					mouseY = getHeight() - 10;
-			}
-			pnlGraphics.repaint();
-			System.out.println("Mouse: "+ mouseX + ", " + mouseY);
+			}//end if
+			
 			//recalculating averageX and averageY
 			averageX = averageY = 0.0;
 			for (int i = 0; i < shipX.length;i++) {
@@ -104,7 +114,9 @@ public class Main extends JFrame implements KeyListener {
 			g2.setTransform(afx);
 			g.setColor(shipColor);
 			g2.fillPolygon(shipX, shipY, 10);
-			if (cheatEnabled){
+			
+			//#cheat
+			if (cheatEnabled) {
 				System.out.println("Mouse: "+ mouseX + ", " + mouseY);
 				System.out.println("backgroundX = " + backgroundX + "\nbackgroundY = " + backgroundY);
 				System.out.print("\nMainX: ");
@@ -118,14 +130,18 @@ public class Main extends JFrame implements KeyListener {
 				System.out.println("\n");
 				System.out.println("Angle = " + angle + " sin (" + (angle) + ") = " + Math.sin(Math.toRadians(angle)));
 				System.out.println("Angle = " + angle + " cos (" + (angle) + ") = " + Math.cos(Math.toRadians(angle)));
-				System.out.println();
-			}
+				System.out.println("\n\n");
+			}//end if
 			
 			//restore old rotation seting
 			g2.setTransform(old);
 			// everything after this is not rotated
+			
 		}//end paintComponent
+		
 	}//end DrawPanel
+	
+	//#action
 	public void keyTyped(KeyEvent e) {}
 	public void keyReleased(KeyEvent e) {
 		
@@ -135,21 +151,20 @@ public class Main extends JFrame implements KeyListener {
 			new PauseMenu();
 		}//end if
 		
+		//if back quote is pressed and released
 		if (e.getKeyCode() == 192) {
 			cheatEnabled = !cheatEnabled;
 			pnlGraphics.repaint();
-		}
+		}//end if
+		
 	}//end keyReleased
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()){
-		
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
-		}
 		//if arrow up is pressed
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
-			if (!PauseMenu.pause){
-				//if the ship is not at the border
+			//if the game is not paused
+			if (!PauseMenu.pause) {
+				
+				//if the ship is not close to the border
 				if (shipX[0] >= 7 && shipX[0] <= 777 && shipY[0] >= 2 && shipY[0] <= 582) {
 					for (int i = 0; i < shipX.length; i++) {
 						shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
@@ -157,6 +172,7 @@ public class Main extends JFrame implements KeyListener {
 					}//end for loop
 				
 				}//end if
+				
 				//if the ship is at the border
 				else {
 					if (shipX[0] < 7) {
@@ -165,41 +181,51 @@ public class Main extends JFrame implements KeyListener {
 								shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
 								shipY[i] -= Math.sin(Math.toRadians(angle + 90))*10;
 							}//end for loop
+							
 						}//end if
 						
 					}//end if
+					
 					if (shipX[0] > 777) {
 						if (Math.sin(Math.toRadians(angle)) <= 0) {
 							for (int i = 0; i < shipX.length; i++) {
 								shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
 								shipY[i] -= Math.sin(Math.toRadians(angle + 90))*10;
 							}//end for loop
+							
 						}//end if
 						
 					}//end if
+					
 					if (shipY[0] < 2) {
 						if (Math.cos(Math.toRadians(angle)) <= 0) {
 							for (int i = 0; i < shipX.length; i++) {
 								shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
 								shipY[i] -= Math.sin(Math.toRadians(angle + 90))*10;
 							}//end for loop
+							
 						}//end if
 						
 					}//end if
+					
 					if (shipY[0] > 582) {
 						if (Math.cos(Math.toRadians(angle)) >= 0) {
 							for (int i = 0; i < shipX.length; i++) {
 								shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
 								shipY[i] -= Math.sin(Math.toRadians(angle + 90))*10;
 							}//end for loop
+							
 						}//end if
 						
 					}//end if
-				}//end else
 					
+				}//end else
+				
+				//move background the opposite way of the ship
 				backgroundX += Math.cos(Math.toRadians(angle + 90))*10;
 				backgroundY += Math.sin(Math.toRadians(angle + 90))*10;
 				
+				//used to loop the background
 				if (Math.round(backgroundX / 10) * 10 == -30)
 					backgroundX = -356;
 				else if (Math.round(backgroundX / 10) * 10 == -550)
@@ -208,12 +234,12 @@ public class Main extends JFrame implements KeyListener {
 					backgroundY = -1105;
 				else if (Math.round(backgroundY / 10) * 10 == -1750)
 					backgroundY = -340;
-			}
-			
+				
+			}//end if
 			
 			pnlGraphics.repaint();
+			
 		}//end if
-		
 		
 		//if right arrow is pressed
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
@@ -222,7 +248,7 @@ public class Main extends JFrame implements KeyListener {
 			
 			pnlGraphics.repaint();
 			
-		}//end else if
+		}//end if
 		
 		//if left arrow is pressed
 		if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
@@ -232,6 +258,6 @@ public class Main extends JFrame implements KeyListener {
 			pnlGraphics.repaint();
 		}//end if
 		
-		
 	}//end keyPressed
+	
 }//end Main
