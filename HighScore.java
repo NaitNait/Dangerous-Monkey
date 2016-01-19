@@ -65,21 +65,15 @@ class HighScore {
 			}//end while
 			arrHighScoreList.set(j, temp);
 		}//end for loop
-			while (arrHighScoreList.size() > 20) {
-				arrHighScoreList.remove(arrHighScoreList.size() - 1);
-			}//end while
 	}//end sortScores
 	
 	//#save
 	public static void writeScores() throws IOException {
 		FileWriter fw = new FileWriter(file);
 		PrintWriter pw = new PrintWriter(fw);
-		if (Main.cheatEnabled){
 			for (int i  = 0; i < 20; i++) {
 				pw.println(arrHighScoreList.get(i).score + arrHighScoreList.get(i).name);
 			}//end for
-			
-		}//end if
 		
 		pw.close();
 		
