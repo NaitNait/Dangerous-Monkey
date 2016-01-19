@@ -76,10 +76,16 @@ public class Main extends JFrame implements KeyListener {
 			super.paintComponent(g);
 			
 			g.drawImage(backgroundImg, backgroundX, backgroundY, null);
-			if (!cheatEnabled){
+			if (PauseMenu.pause){
 				mouseX = (int) MouseInfo.getPointerInfo().getLocation().x;			
 				mouseY = (int) MouseInfo.getPointerInfo().getLocation().y;
-			}			
+				if (mouseX >= getWidth() - 10)
+					mouseX = getWidth() - 10 ;
+				if (mouseY >= getHeight() - 10)
+					mouseY = getHeight() - 10;
+			}
+			pnlGraphics.repaint();
+			System.out.println("Mouse: "+ mouseX + ", " + mouseY);
 			//recalculating averageX and averageY
 			averageX = averageY = 0.0;
 			for (int i = 0; i < shipX.length;i++) {
@@ -143,7 +149,6 @@ public class Main extends JFrame implements KeyListener {
 		//if arrow up is pressed
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			if (!PauseMenu.pause){
-				System.out.println(angle);	
 				//if the ship is not at the border
 				if (shipX[0] >= 7 && shipX[0] <= 777 && shipY[0] >= 2 && shipY[0] <= 582) {
 					for (int i = 0; i < shipX.length; i++) {
@@ -209,7 +214,7 @@ public class Main extends JFrame implements KeyListener {
 			pnlGraphics.repaint();
 		}//end if
 		
-		/*
+		
 		//if right arrow is pressed
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			if (!PauseMenu.pause)
@@ -226,7 +231,7 @@ public class Main extends JFrame implements KeyListener {
 			
 			pnlGraphics.repaint();
 		}//end if
-		*/
+		
 		
 	}//end keyPressed
 }//end Main
