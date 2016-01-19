@@ -47,7 +47,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 	
 	static Timer time = null;
 	
-	//setting ship constructor
+	//setting main constructor
 	public Main() {
 		super("Asteroids");
 		
@@ -71,8 +71,14 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		
 		pack();
 		
+		time = new Timer((int)(1000/60), new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				pnlGraphics.repaint();
+			}
+		});
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}//end ship constructor
+	}//end main constructor
 	
 	//#static
 	static class DrawPanel extends JPanel {
@@ -81,11 +87,6 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 			repaint();
 		}
 		
-		time = new Timer((int)(1000/60), new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				pnlGraphics.repaint();
-			}
-		});
 		
 		//@Override
 		public void paintComponent (Graphics g) {
