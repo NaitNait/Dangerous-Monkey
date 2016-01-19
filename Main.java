@@ -45,6 +45,8 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 	static int mouseX = (int) MouseInfo.getPointerInfo().getLocation().x;
 	static int mouseY = (int) MouseInfo.getPointerInfo().getLocation().y;
 	
+	static Timer time = null;
+	
 	//setting ship constructor
 	public Main() {
 		super("Asteroids");
@@ -78,6 +80,14 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		public DrawPanel() {
 			repaint();
 		}
+		
+		time = new Timer((int)(1000/60), new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				test();
+				Asteroid.move();
+				pnlGraphics.repaint();
+			}
+		});
 		
 		//@Override
 		public void paintComponent (Graphics g) {
