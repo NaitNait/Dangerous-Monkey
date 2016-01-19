@@ -1,7 +1,19 @@
+/**
+ * Settings class
+ *
+ * Settings menu 
+ * activated when settings button is pressed on the main menu or pause menu 
+ *
+ * This class includes an a color changer, and actionListener
+ * 
+ * #rehan
+ **/
+ 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+//#method
 class Settings extends JFrame implements ActionListener, KeyListener
 {
 
@@ -15,11 +27,10 @@ class Settings extends JFrame implements ActionListener, KeyListener
 	static JButton buttonList[] = new JButton[5];
 	static String buttonText[] = {"CHANGE SHIP COLOUR", "SPEED", "NUMBER OF ASTEROIDS", "CLOSE SETTINGS", "CHEAT MODE: DISABLED"};
 	
-	public Settings()
-    {
+	public Settings() {
 		super("Asteroids");
 		
-		for(int i = 0; i < buttonList.length;i++){
+		for(int i = 0; i < buttonList.length;i++) {
 			buttonList[i] = new JButton(buttonText[i]);
 			buttonList[i].setPreferredSize(new Dimension(200, 40));
 			buttonList[i].setFocusPainted(false);
@@ -55,23 +66,26 @@ class Settings extends JFrame implements ActionListener, KeyListener
 		pack();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+    }//end Settings constructor
 
-	public void actionPerformed(ActionEvent e)
-	{
-		if (buttonList[0] == e.getSource())
+	public void actionPerformed(ActionEvent e) {
+		if (buttonList[0] == e.getSource()){
 			Main.shipColor = JColorChooser.showDialog(background, "Pick Ship Colour", Main.shipColor);
 			Main.pnlGraphics.repaint();
+		}//end if
 
 		if (buttonList[3] == e.getSource())
 			dispose();
-	}
+	}//end actionPerformed
 
-	public void keyReleased(KeyEvent e){
+	public void keyReleased(KeyEvent e) {
+		//if the p key or esacape is pressed
 		if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			PauseMenu.pause = !PauseMenu.pause;
 			new PauseMenu();
-		}
+		}//end if
+		
+		//if back quote is pressed
 		if (e.getKeyCode() == 192) {
 			Main.cheatEnabled = !Main.cheatEnabled;
 			if (Main.cheatEnabled)
@@ -79,10 +93,8 @@ class Settings extends JFrame implements ActionListener, KeyListener
 			else 
 				buttonList[4].setText("CHEAT MODE: DISABLED");
 			repaint();
-		} 
-	}
-	public void keyTyped(KeyEvent e){}
-	public void keyPressed(KeyEvent e){
-		
-	}
+		}//end if 
+	}//end keyReleased
+	public void keyTyped(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {}
 }
