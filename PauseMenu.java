@@ -26,7 +26,9 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 
 	//Setting 2 lists: a JButton list and a String list to label the buttons
 	JButton buttonList[] = new JButton[5];
-	String buttonText[] = {"RESUME", "RESTART", "SAVE GAME", "SETTINGS", "EXIT"};
+	String buttonText[] = {"RESUME", "RESTART", "SAVE GAME", "SETTINGS", "EXIT GAME"};
+	
+	static boolean pause = false;
 	
 	/**
 	 * Main Constructor
@@ -41,7 +43,7 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 		//Configures each JButton and adds it to the button list
 		for(int i = 0; i < buttonList.length;i++){
 			buttonList[i] = new JButton(buttonText[i]);
-			buttonList[i].setPreferredSize(new Dimension(200, 60));
+			buttonList[i].setPreferredSize(new Dimension(200, 40));
 			buttonList[i].setFocusPainted(false);
 			buttonList[i].setOpaque(false);
 			buttonList[i].setContentAreaFilled(false);
@@ -70,7 +72,26 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (buttonList[0] == e.getSource()){
+			pause = !pause;
 			dispose();
+		}
+		if (buttonList[1] == e.getSource()) {
+			dispose();
+			
+			//resetting coordinates of the ship from top left going counter-clockwise
+			Main.shipX = new int[] {400, 400, 408, 420, 428, 428, 420, 420, 408, 408};
+			Main.shipY = new int[] {300, 320, 328, 328, 320, 300, 300, 320, 320, 300};
+			
+			Main.backgroundX = -159;
+			Main.backgroundY = -1105;
+			
+			Main.averageX = 0.0;
+			Main.averageY = 0.0;
+			
+			//resetting angle of rotation for the ship
+			Main.angle = 0.0;
+			
+			Main.pnlGraphics.repaint();
 		}
 		if (buttonList[2] == e.getSource()){
 			JFileChooser chooseFile = new JFileChooser();
@@ -85,13 +106,12 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 					FileWriter fw = new FileWriter(file);
 					PrintWriter pw = new PrintWriter(fw);
 					for (int i  = 0; i < Main.shipX.length; i++){
-						pw.println(Main.shipX[i]);
-					}
-					for (int i  = 0; i < Main.shipY.length; i++){
+						pw.print(Main.shipX[i] + " ");
 						pw.println(Main.shipY[i]);
 					}
 					pw.println(Main.angle);
 					pw.println(Main.backgroundX + " " + Main.backgroundY);
+					pw.println(Main.cheatEnabled);
 					
 					pw.close();
 				} catch (IOException x) {
@@ -100,7 +120,7 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 			}//end if
 		}//end if
 		if (buttonList[3] == e.getSource()){
-			
+			new Settings();
 		} 
 		if (buttonList[4] == e.getSource()){
 			System.exit(0);
@@ -108,7 +128,8 @@ class PauseMenu extends JFrame implements ActionListener, KeyListener {
 	}//end actionPerformed
 	
 	public void keyReleased(KeyEvent e){
-		if (e.getKeyCode() == KeyEvent.VK_P){
+		if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			pause = !pause;
 			dispose();
 		}
 	}//end keyReleased
