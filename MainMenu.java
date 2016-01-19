@@ -4,7 +4,7 @@
  * Creates the main menu of the game containing 1 ImageIcon (in a JLabel) and 5 JButtons
  * This class includes an action listener, key listener, and file reader
  * 
- * @author Rehan Hajee
+ * #rehan
  **/
 
 import java.awt.*;
@@ -13,13 +13,15 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
+//#method
+//#main
 class MainMenu extends JFrame implements ActionListener, KeyListener {
 
 	//create the image as a JLabel
 	ImageIcon asteroids = new ImageIcon("img\\Asteroids.png");
 	JLabel lblTop = new JLabel(asteroids);
 	
-	//Initializing the JPanels
+	//initializing the JPanels
 	JPanel top = new JPanel();
 	JPanel buttons = new JPanel();
 	JPanel highScore = new JPanel();
@@ -27,7 +29,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	JPanel mainMenuBackground = new JPanel();
 
 
-	//Setting 2 lists: a JButton list and a String list to label the buttons 
+	//initializing 2 lists: a JButton list and a String list to label the buttons 
 	JButton buttonList[] = new JButton[5];
 	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "HIGH SCORES", "SETTINGS", "EXIT GAME"};
 	
@@ -69,7 +71,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			JLabel s2 = new JLabel(Integer.toString(HighScore.arrHighScoreList.get(i + 10).score) + " " + HighScore.arrHighScoreList.get(i + 10).name);
 			temp.add(s2);
 			highScoreChart.add(temp);
-		}
+		}//end for
 		
 		menuReturn.setFocusPainted(false);
 		menuReturn.setOpaque(false);
@@ -105,6 +107,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}//end MainMenu constructor 
 
+	//#action
 	public void actionPerformed(ActionEvent e) {
 		if (buttonList[0] == e.getSource()) {
 			dispose();
@@ -115,10 +118,12 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			JFileChooser chooseFile = new JFileChooser();
 			chooseFile.setDialogTitle("Specify a file to Load");
 
+			//#read
 			int userSelection = chooseFile.showOpenDialog(this);
 			if (userSelection == JFileChooser.APPROVE_OPTION)
 			{
 				//Attempt to Read the file
+				//#error
 				File fileToOpen = chooseFile.getSelectedFile();
 				try {
 					Scanner sc = new Scanner(fileToOpen);
@@ -131,13 +136,17 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 						Main.backgroundX = sc.nextInt();
 						Main.backgroundY = sc.nextInt();
 						Main.cheatEnabled = sc.nextBoolean();
-					}
+					}//end while
+					
 				} catch (Exception ex) {
 					System.out.println("Class not found");
 				    ex.printStackTrace();
 				}//end try/catch
+				
 				new Main();
 			}//end if
+			
+			
 		}//end if
 		
 		if (buttonList[2] == e.getSource()) {
@@ -145,25 +154,33 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			buttons.setVisible(false);
 			highScore.setVisible(true);
 		}//end if
-		if (buttonList[3] == e.getSource()){
+		
+		if (buttonList[3] == e.getSource()) {
 			new Settings();
-		} 
+		}//end if
+		
 		if (buttonList[4] == e.getSource()) {
 			System.exit(0);
 		}//end if
 		
 		if (menuReturn == e.getSource()) {
 			highScore.setVisible(false);
-			buttons.setVisible(true);
-			
-		}
+			buttons.setVisible(true);	
+		}//end if
+		
 	}//end actionPerformed
 
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			PauseMenu.pause = !PauseMenu.pause;
 			new PauseMenu();
-		}
+		}//end if
+		
+		//if backquote is pressed and released
+		if (e.getKeyCode() == 192) {
+			Main.cheatEnabled = !Main.cheatEnabled;
+			Main.pnlGraphics.repaint();
+		}//end if
 	}//end keyReleased
 	
 	public void keyTyped(KeyEvent e) {}
