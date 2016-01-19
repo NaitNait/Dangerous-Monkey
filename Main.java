@@ -83,8 +83,6 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		
 		time = new Timer((int)(1000/60), new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				test();
-				Asteroid.move();
 				pnlGraphics.repaint();
 			}
 		});
