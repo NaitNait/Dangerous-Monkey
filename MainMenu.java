@@ -29,7 +29,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 
 	//Setting 2 lists: a JButton list and a String list to label the buttons 
 	JButton buttonList[] = new JButton[5];
-	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "HIGH SCORES", "SETTINGS", "EXIT"};
+	String buttonText[] = {"START NEW GAME", "RESUME PREVIOUS GAME", "HIGH SCORES", "SETTINGS", "EXIT GAME"};
 	
 	JButton menuReturn = new JButton("<html><u>RETURN TO MENU</u></html>");
 	
@@ -49,7 +49,7 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 		//Configures each JButton and adds it to the button list
 		for(int i = 0; i < buttonList.length;i++) {
 			buttonList[i] = new JButton(buttonText[i]);
-			buttonList[i].setPreferredSize(new Dimension(200, 60));
+			buttonList[i].setPreferredSize(new Dimension(200, 50));
 			buttonList[i].setFocusPainted(false);
 			buttonList[i].setOpaque(false);
 			buttonList[i].setContentAreaFilled(false);
@@ -125,13 +125,12 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 					while (sc.hasNext()) {
 						for (int i = 0; i < Main.shipX.length; i++) {
 							Main.shipX[i] = sc.nextInt();
-						}
-						for (int i = 0; i < Main.shipY.length; i++) {
 							Main.shipY[i] = sc.nextInt();
 						}
 						Main.angle = sc.nextDouble();
 						Main.backgroundX = sc.nextInt();
 						Main.backgroundY = sc.nextInt();
+						Main.cheatEnabled = sc.nextBoolean();
 					}
 				} catch (Exception ex) {
 					System.out.println("Class not found");
@@ -146,7 +145,9 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 			buttons.setVisible(false);
 			highScore.setVisible(true);
 		}//end if
-		
+		if (buttonList[3] == e.getSource()){
+			new Settings();
+		} 
 		if (buttonList[4] == e.getSource()) {
 			System.exit(0);
 		}//end if
@@ -159,7 +160,8 @@ class MainMenu extends JFrame implements ActionListener, KeyListener {
 	}//end actionPerformed
 
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_P) {
+		if (e.getKeyCode() == KeyEvent.VK_P || e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			PauseMenu.pause = !PauseMenu.pause;
 			new PauseMenu();
 		}
 	}//end keyReleased
