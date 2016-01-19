@@ -85,10 +85,4 @@ class Settings extends JFrame implements ActionListener, KeyListener
 	public void keyPressed(KeyEvent e){
 		
 	}
-	
-	public static void main(String[] args)
-	{
-		new Settings();
-	}
-	
 }
