@@ -4,6 +4,7 @@
  * Creates the main menu of the game containing 1 ImageIcon (in a JLabel) and 5 JButtons
  * This class includes an action listener, key listener, and file reader
  * 
+ * @author Rehan
  * #rehan
  **/
 
