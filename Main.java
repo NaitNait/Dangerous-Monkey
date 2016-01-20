@@ -110,7 +110,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 			if (!PauseMenu.pause) {
 				
 				//if the ship is not close to the border
-				if (shipX[0] >= 7 && shipX[0] <= 777 && shipY[0] >= 2 && shipY[0] <= 582) {
+				if (shipX[0] >= 12 && shipX[0] <= 777 && shipY[0] >= 2 && shipY[0] <= 582) {
 					for (int i = 0; i < shipX.length; i++) {
 						shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
 						shipY[i] -= Math.sin(Math.toRadians(angle + 90))*10;
@@ -120,7 +120,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 				
 				//if the ship is at the border
 				else {
-					if (shipX[0] < 7) {
+					if (shipX[0] < 12) {
 						if (Math.sin(Math.toRadians(angle)) >= 0) {
 							for (int i = 0; i < shipX.length; i++) {
 								shipX[i] -= Math.cos(Math.toRadians(angle + 90))*10;
