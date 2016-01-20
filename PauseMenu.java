@@ -4,6 +4,7 @@
  * Creates the pause menu of the game containing 1 JLabel and 5 JButtons
  * This class includes an action listener, key listener, and file writer
  * 
+ * @author Rehan
  * #rehan
  **/
 
