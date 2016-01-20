@@ -30,7 +30,7 @@ class HighScore {
 	 **/
 	public HighScore (String name, int score) {
 		this.name = name;
-		this.score = b;
+		this.score = score;
 	}//end HighScore
 	
 	//#static
