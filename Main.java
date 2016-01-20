@@ -58,7 +58,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		//#error
 		catch (IOException e) {
 			System.out.println("The following problem writing to a file occurred:\n" + e);
-		}
+		}//end try/catch
 		
 		pnlGraphics.setPreferredSize(new Dimension(800, 600));
 		
@@ -79,76 +79,6 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}//end main constructor
-	
-	//#static
-	static class DrawPanel extends JPanel {
-		
-		public DrawPanel() {
-			repaint();
-		}
-		
-		
-		//@Override
-		public void paintComponent (Graphics g) {
-			super.paintComponent(g);
-			
-			g.drawImage(backgroundImg, backgroundX, backgroundY, null);
-			
-			//if the game is not paused
-			if (!PauseMenu.pause) {
-				mouseX = (int) MouseInfo.getPointerInfo().getLocation().x;			
-				mouseY = (int) MouseInfo.getPointerInfo().getLocation().y;
-				//if mouse is out of the window
-				if (mouseX >= getWidth() - 10)
-					mouseX = getWidth() - 10 ;
-				if (mouseY >= getHeight() - 10)
-					mouseY = getHeight() - 10;
-			}//end if
-			
-			//recalculating averageX and averageY
-			averageX = averageY = 0.0;
-			for (int i = 0; i < shipX.length;i++) {
-				averageX += shipX[i];
-				averageY += shipY[i];
-			}//end for
-			averageX /= 10;
-			averageY /= 10;
-			
-			Graphics2D g2 = (Graphics2D) g;
-			//save current rotation setting
-			AffineTransform old = g2.getTransform();
-			AffineTransform afx = new AffineTransform();
-			//rotate shape certain number of degrees around a certain point
-			afx.setToRotation(Math.toRadians(angle), averageX, averageY);
-			g2.setTransform(afx);
-			g.setColor(shipColor);
-			g2.fillPolygon(shipX, shipY, 10);
-			
-			//#cheat
-			if (cheatEnabled) {
-				System.out.println("Mouse: "+ mouseX + ", " + mouseY);
-				System.out.println("backgroundX = " + backgroundX + "\nbackgroundY = " + backgroundY);
-				System.out.print("\nMainX: ");
-				for (int i = 0; i < shipX.length; i++) {
-					System.out.print(shipX[i] + " ");
-				}
-				System.out.print("\nMainY: ");
-				for (int i = 0; i < shipY.length; i++) {
-					System.out.print(shipY[i] + " ");
-				}
-				System.out.println("\n");
-				System.out.println("Angle = " + angle + " sin (" + (angle) + ") = " + Math.sin(Math.toRadians(angle)));
-				System.out.println("Angle = " + angle + " cos (" + (angle) + ") = " + Math.cos(Math.toRadians(angle)));
-				System.out.println("\n\n");
-			}//end if
-			
-			//restore old rotation seting
-			g2.setTransform(old);
-			// everything after this is not rotated
-			
-		}//end paintComponent
-		
-	}//end DrawPanel
 	
 	//#action
 	public void mouseClicked(MouseEvent e) {}
@@ -172,6 +102,7 @@ public class Main extends JFrame implements KeyListener, MouseListener {
 		}//end if
 		
 	}//end keyReleased
+	
 	public void keyPressed(KeyEvent e) {
 		//if arrow up is pressed
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
