@@ -4,6 +4,7 @@
  * Gets of the high scores of the game
  * This class includes an ArrayList, and reading and writing to files
  * 
+ * @author Rehan
  * #rehan
  **/
 import java.io.*;
@@ -24,15 +25,15 @@ class HighScore {
 	/**
 	 * HighScore method
 	 * Creates high score object
-	 * @param Sring a - name of the person
-	 * @param int b - score the person got
+	 * @param Sring name - name of the person
+	 * @param int score - score the person got
 	 **/
-	public HighScore (String a, int b) {
-		this.name = a;
+	public HighScore (String name, int score) {
+		this.name = name;
 		this.score = b;
 	}//end HighScore
 	
-	
+	//#static
 	public static void getScores() throws IOException {
 		//#error
 		try {
@@ -55,6 +56,7 @@ class HighScore {
 	}//end getScores
 	
 	// #alg
+	//#static
 	public static void sortScores() {
 		for (int i = 1; i < arrHighScoreList.size(); i++) {
 			HighScore temp = arrHighScoreList.get(i);
@@ -65,26 +67,22 @@ class HighScore {
 			}//end while
 			arrHighScoreList.set(j, temp);
 		}//end for loop
-			while (arrHighScoreList.size() > 20) {
-				arrHighScoreList.remove(arrHighScoreList.size() - 1);
-			}//end while
 	}//end sortScores
 	
 	//#save
+	//#rehan
 	public static void writeScores() throws IOException {
 		FileWriter fw = new FileWriter(file);
 		PrintWriter pw = new PrintWriter(fw);
-		if (Main.cheatEnabled){
 			for (int i  = 0; i < 20; i++) {
 				pw.println(arrHighScoreList.get(i).score + arrHighScoreList.get(i).name);
 			}//end for
-			
-		}//end if
 		
 		pw.close();
 		
 	}//end writeScores
 
+	//#static
 	public static void printScores() {
 		for (int i = 0; i < arrHighScoreList.size();i++) {
 			System.out.println(arrHighScoreList.get(i).score + "," + arrHighScoreList.get(i).name);
