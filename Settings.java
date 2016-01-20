@@ -6,6 +6,7 @@
  *
  * This class includes an a color changer, and actionListener
  * 
+ * @author Rehan
  * #rehan
  **/
  
